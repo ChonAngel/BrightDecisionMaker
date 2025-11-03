@@ -1,0 +1,11 @@
+{
+  "mcp.servers": {
+    "context7": {
+      "command": "npx",
+      "args": ["-y", "@upstash/context7-mcp", "--api-key", "ctx7sk-1a1822a6-0131-4fb9-b211-8293eb8cb0fa"],
+      "env": {}
+    }
+  },
+  "mcp.enableLogging": true,
+  "mcp.logLevel": "info"
+}

@@ -1,1 +1,172 @@
-/* You can add global styles to this file, and also import other style files */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins', sans-serif;
+  background-color: var(--background-color, #FAFFFE);
+  color: var(--text-color, #2C3E50);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+body {
+  overflow-x: hidden;
+}
+
+// Global design system variables
+:root {
+  --border-radius-sm: 8px;
+  --border-radius-md: 12px;
+  --border-radius-lg: 16px;
+  --border-radius-xl: 24px;
+  
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.1);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.12);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.15);
+  --shadow-xl: 0 12px 24px rgba(0, 0, 0, 0.18);
+  
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+  
+  --animation-fast: 0.2s;
+  --animation-normal: 0.3s;
+  --animation-slow: 0.5s;
+  
+  // Default Baby Blue Theme
+  --primary-color: #87CEEB;
+  --secondary-color: #E0F6FF;
+  --accent-color: #4FC3F7;
+  --background-color: #FAFFFE;
+  --surface-color: #FFFFFF;
+  --text-color: #2C3E50;
+  --text-secondary-color: #7B8C98;
+  --gradient-primary: linear-gradient(135deg, #87CEEB 0%, #4FC3F7 100%);
+  --gradient-secondary: linear-gradient(135deg, #E0F6FF 0%, #FFFFFF 100%);
+}
+
+// Theme classes
+.baby-blue-theme {
+  --primary-color: #87CEEB;
+  --secondary-color: #E0F6FF;
+  --accent-color: #4FC3F7;
+  --background-color: #FAFFFE;
+  --surface-color: #FFFFFF;
+  --text-color: #2C3E50;
+  --text-secondary-color: #7B8C98;
+  --gradient-primary: linear-gradient(135deg, #87CEEB 0%, #4FC3F7 100%);
+  --gradient-secondary: linear-gradient(135deg, #E0F6FF 0%, #FFFFFF 100%);
+}
+
+.barbie-pink-theme {
+  --primary-color: #FF69B4;
+  --secondary-color: #FFE4E6;
+  --accent-color: #FF1493;
+  --background-color: #FFF8F9;
+  --surface-color: #FFFFFF;
+  --text-color: #2D1B20;
+  --text-secondary-color: #8B5A6B;
+  --gradient-primary: linear-gradient(135deg, #FF69B4 0%, #FF1493 100%);
+  --gradient-secondary: linear-gradient(135deg, #FFE4E6 0%, #FFFFFF 100%);
+}
+
+.black-white-theme {
+  --primary-color: #2C2C2C;
+  --secondary-color: #F5F5F5;
+  --accent-color: #666666;
+  --background-color: #FFFFFF;
+  --surface-color: #F9F9F9;
+  --text-color: #1A1A1A;
+  --text-secondary-color: #666666;
+  --gradient-primary: linear-gradient(135deg, #2C2C2C 0%, #666666 100%);
+  --gradient-secondary: linear-gradient(135deg, #F5F5F5 0%, #FFFFFF 100%);
+}
+
+// Utility classes
+.cute-card {
+  background: var(--surface-color);
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--shadow-md);
+  padding: var(--spacing-lg);
+  transition: transform var(--animation-normal) ease, box-shadow var(--animation-normal) ease;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+}
+
+.gradient-bg {
+  background: var(--gradient-primary);
+}
+
+.gradient-secondary-bg {
+  background: var(--gradient-secondary);
+}
+
+.text-primary {
+  color: var(--primary-color);
+}
+
+.text-secondary {
+  color: var(--text-secondary-color);
+}
+
+// Animation keyframes
+@keyframes celebration {
+  0% { transform: scale(1) rotate(0deg); }
+  25% { transform: scale(1.1) rotate(5deg); }
+  50% { transform: scale(1.2) rotate(-5deg); }
+  75% { transform: scale(1.1) rotate(3deg); }
+  100% { transform: scale(1) rotate(0deg); }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInScale {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.celebration {
+  animation: celebration 0.6s ease-in-out;
+}
+
+.fade-in-up {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+.fade-in-scale {
+  animation: fadeInScale 0.4s ease-out;
+}
+
+// Responsive breakpoints
+@media (max-width: 768px) {
+  .cute-card {
+    padding: var(--spacing-md);
+    border-radius: var(--border-radius-md);
+  }
+}

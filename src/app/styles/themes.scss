@@ -1,0 +1,281 @@
+@use '@angular/material' as mat;
+
+// Include the common styles for Angular Material
+@include mat.core();
+
+// Define the theme palettes
+$baby-blue-primary: mat.define-palette((
+  50: #E3F2FD,
+  100: #BBDEFB,
+  200: #90CAF9,
+  300: #64B5F6,
+  400: #42A5F5,
+  500: #87CEEB,
+  600: #1E88E5,
+  700: #1976D2,
+  800: #1565C0,
+  900: #0D47A1,
+  A100: #82B1FF,
+  A200: #448AFF,
+  A400: #2979FF,
+  A700: #2962FF,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #000000,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff,
+  )
+));
+
+$baby-blue-accent: mat.define-palette((
+  50: #E1F5FE,
+  100: #B3E5FC,
+  200: #81D4FA,
+  300: #4FC3F7,
+  400: #29B6F6,
+  500: #03A9F4,
+  600: #039BE5,
+  700: #0288D1,
+  800: #0277BD,
+  900: #01579B,
+  A100: #80D8FF,
+  A200: #40C4FF,
+  A400: #00B0FF,
+  A700: #0091EA,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #ffffff,
+    A700: #ffffff,
+  )
+));
+
+// Barbie Pink palette
+$barbie-pink-primary: mat.define-palette((
+  50: #FCE4EC,
+  100: #F8BBD9,
+  200: #F48FB1,
+  300: #F06292,
+  400: #EC407A,
+  500: #FF69B4,
+  600: #D81B60,
+  700: #C2185B,
+  800: #AD1457,
+  900: #880E4F,
+  A100: #FF80AB,
+  A200: #FF4081,
+  A400: #F50057,
+  A700: #C51162,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff,
+  )
+));
+
+$barbie-pink-accent: mat.define-palette((
+  50: #FCE4EC,
+  100: #F8BBD9,
+  200: #F48FB1,
+  300: #F06292,
+  400: #EC407A,
+  500: #FF1493,
+  600: #D81B60,
+  700: #C2185B,
+  800: #AD1457,
+  900: #880E4F,
+  A100: #FF80AB,
+  A200: #FF4081,
+  A400: #F50057,
+  A700: #C51162,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #ffffff,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #ffffff,
+    A400: #ffffff,
+    A700: #ffffff,
+  )
+));
+
+// Black & White palette
+$black-white-primary: mat.define-palette((
+  50: #FAFAFA,
+  100: #F5F5F5,
+  200: #EEEEEE,
+  300: #E0E0E0,
+  400: #BDBDBD,
+  500: #2C2C2C,
+  600: #757575,
+  700: #616161,
+  800: #424242,
+  900: #212121,
+  A100: #F5F5F5,
+  A200: #EEEEEE,
+  A400: #BDBDBD,
+  A700: #616161,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #ffffff,
+  )
+));
+
+$black-white-accent: mat.define-palette((
+  50: #FAFAFA,
+  100: #F5F5F5,
+  200: #EEEEEE,
+  300: #E0E0E0,
+  400: #BDBDBD,
+  500: #666666,
+  600: #757575,
+  700: #616161,
+  800: #424242,
+  900: #212121,
+  A100: #F5F5F5,
+  A200: #EEEEEE,
+  A400: #BDBDBD,
+  A700: #616161,
+  contrast: (
+    50: #000000,
+    100: #000000,
+    200: #000000,
+    300: #000000,
+    400: #000000,
+    500: #ffffff,
+    600: #ffffff,
+    700: #ffffff,
+    800: #ffffff,
+    900: #ffffff,
+    A100: #000000,
+    A200: #000000,
+    A400: #000000,
+    A700: #ffffff,
+  )
+));
+
+// Define typography
+$custom-typography: mat.define-typography-config(
+  $font-family: 'Poppins, sans-serif',
+);
+
+// Define the themes
+$baby-blue-theme: mat.define-light-theme((
+  color: (
+    primary: $baby-blue-primary,
+    accent: $baby-blue-accent,
+  ),
+  typography: $custom-typography,
+));
+
+$barbie-pink-theme: mat.define-light-theme((
+  color: (
+    primary: $barbie-pink-primary,
+    accent: $barbie-pink-accent,
+  ),
+  typography: $custom-typography,
+));
+
+$black-white-theme: mat.define-light-theme((
+  color: (
+    primary: $black-white-primary,
+    accent: $black-white-accent,
+  ),
+  typography: $custom-typography,
+));
+
+// Include theme styles for Angular Material components
+@include mat.all-component-themes($baby-blue-theme);
+
+// Theme-specific styles
+.baby-blue-theme {
+  @include mat.all-component-colors($baby-blue-theme);
+  
+  --primary-color: #87CEEB;
+  --secondary-color: #E0F6FF;
+  --accent-color: #4FC3F7;
+  --background-color: #FAFFFE;
+  --surface-color: #FFFFFF;
+  --text-color: #2C3E50;
+  --text-secondary-color: #7B8C98;
+  --gradient-primary: linear-gradient(135deg, #87CEEB 0%, #4FC3F7 100%);
+  --gradient-secondary: linear-gradient(135deg, #E0F6FF 0%, #FFFFFF 100%);
+}
+
+.barbie-pink-theme {
+  @include mat.all-component-colors($barbie-pink-theme);
+  
+  --primary-color: #FF69B4;
+  --secondary-color: #FFE4E6;
+  --accent-color: #FF1493;
+  --background-color: #FFF8F9;
+  --surface-color: #FFFFFF;
+  --text-color: #2D1B20;
+  --text-secondary-color: #8B5A6B;
+  --gradient-primary: linear-gradient(135deg, #FF69B4 0%, #FF1493 100%);
+  --gradient-secondary: linear-gradient(135deg, #FFE4E6 0%, #FFFFFF 100%);
+}
+
+.black-white-theme {
+  @include mat.all-component-colors($black-white-theme);
+  
+  --primary-color: #2C2C2C;
+  --secondary-color: #F5F5F5;
+  --accent-color: #666666;
+  --background-color: #FFFFFF;
+  --surface-color: #F9F9F9;
+  --text-color: #1A1A1A;
+  --text-secondary-color: #666666;
+  --gradient-primary: linear-gradient(135deg, #2C2C2C 0%, #666666 100%);
+  --gradient-secondary: linear-gradient(135deg, #F5F5F5 0%, #FFFFFF 100%);
+}
