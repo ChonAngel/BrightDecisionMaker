@@ -11,52 +11,70 @@ import { SpinService } from '../../services/spin.service';
   imports: [CommonModule, MatButtonModule, MatIconModule],
   template: `
     <div class="spin-wheel-container">
-      <!-- Wheel SVG -->
-      <div class="wheel-wrapper" [class.spinning]="isSpinning()">
-        <svg 
-          class="wheel-svg" 
-          [style.transform]="'rotate(' + rotation() + 'deg)'"
-          viewBox="0 0 400 400"
-          width="300" 
-          height="300">
-          
-          @if (segments().length > 0) {
-            @for (segment of segments(); track segment.option.id) {
-              <!-- Wheel segment -->
-              <path 
-                [attr.d]="segment.pathData"
-                [attr.fill]="segment.color"
-                [attr.stroke]="'#ffffff'"
-                [attr.stroke-width]="2"
-                class="wheel-segment">
-              </path>
-              
-              <!-- Text label -->
-              <text 
-                [attr.x]="segment.textX"
-                [attr.y]="segment.textY"
-                [attr.transform]="'rotate(' + segment.textRotation + ' ' + segment.textX + ' ' + segment.textY + ')'"
-                class="segment-text"
-                text-anchor="middle"
-                dominant-baseline="middle">
-                {{ segment.option.name }}
+      <!-- Wheel section with fireworks -->
+      <div class="wheel-section">
+        <!-- Wheel SVG -->
+        <div class="wheel-wrapper" [class.spinning]="isSpinning()">
+          <svg 
+            class="wheel-svg" 
+            [style.transform]="'rotate(' + rotation() + 'deg)'"
+            viewBox="0 0 400 400"
+            width="400" 
+            height="400">
+            
+            @if (segments().length > 0) {
+              @for (segment of segments(); track segment.option.id) {
+                <!-- Wheel segment -->
+                <path 
+                  [attr.d]="segment.pathData"
+                  [attr.fill]="segment.color"
+                  [attr.stroke]="'#ffffff'"
+                  [attr.stroke-width]="2"
+                  class="wheel-segment">
+                </path>
+                
+                <!-- Text label -->
+                <text 
+                  [attr.x]="segment.textX"
+                  [attr.y]="segment.textY"
+                  [attr.transform]="'rotate(' + segment.textRotation + ' ' + segment.textX + ' ' + segment.textY + ')'"
+                  class="segment-text"
+                  text-anchor="middle"
+                  dominant-baseline="middle">
+                  {{ segment.option.name }}
+                </text>
+              }
+            } @else {
+              <!-- Empty state -->
+              <circle cx="200" cy="200" r="150" fill="#f0f0f0" stroke="#ddd" stroke-width="2"></circle>
+              <text x="200" y="200" text-anchor="middle" dominant-baseline="middle" class="empty-text">
+                Add options to spin!
               </text>
             }
-          } @else {
-            <!-- Empty state -->
-            <circle cx="200" cy="200" r="150" fill="#f0f0f0" stroke="#ddd" stroke-width="2"></circle>
-            <text x="200" y="200" text-anchor="middle" dominant-baseline="middle" class="empty-text">
-              Add options to spin!
-            </text>
-          }
-        </svg>
-        
-        <!-- Center pointer -->
-        <div class="wheel-pointer">
-          <svg width="40" height="40" viewBox="0 0 40 40">
-            <polygon points="20,5 30,25 10,25" fill="#333" stroke="#fff" stroke-width="2"/>
           </svg>
+          
+          <!-- Top pointer pointing down at wheel -->
+          <div class="wheel-pointer">
+            <svg width="40" height="50" viewBox="0 0 40 50">
+              <polygon points="10,0 30,0 20,25" fill="#FF6B6B" stroke="#fff" stroke-width="2"/>
+            </svg>
+          </div>
         </div>
+        
+        <!-- Fireworks container at wheel level -->
+        @if (lastResult()) {
+          <div class="fireworks-container">
+            @for (firework of fireworks; track $index) {
+              <div class="firework" [style.left.%]="firework.x" [style.top.%]="firework.y">
+                @for (particle of firework.particles; track $index) {
+                  <div class="particle" 
+                       [style.background]="particle.color"
+                       [style.animation-delay.ms]="particle.delay"></div>
+                }
+              </div>
+            }
+          </div>
+        }
       </div>
 
       <!-- Spin Button -->
@@ -76,19 +94,6 @@ import { SpinService } from '../../services/spin.service';
       <!-- Result Display -->
       @if (lastResult()) {
         <div class="result-display fade-in-scale">
-          <!-- Fireworks container -->
-          <div class="fireworks-container">
-            @for (firework of fireworks; track $index) {
-              <div class="firework" [style.left.%]="firework.x" [style.top.%]="firework.y">
-                @for (particle of firework.particles; track $index) {
-                  <div class="particle" 
-                       [style.background]="particle.color"
-                       [style.animation-delay.ms]="particle.delay"></div>
-                }
-              </div>
-            }
-          </div>
-          
           <div class="result-card cute-card">
             <h3>🎉 Result!</h3>
             <p class="result-option">{{ lastResult()!.option.name }}</p>
@@ -105,8 +110,15 @@ import { SpinService } from '../../services/spin.service';
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: var(--spacing-lg);
+      gap: var(--spacing-sm);
       padding: var(--spacing-lg);
+    }
+
+    .wheel-section {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .wheel-wrapper {
@@ -150,14 +162,15 @@ import { SpinService } from '../../services/spin.service';
 
     .wheel-pointer {
       position: absolute;
-      top: -10px;
+      top: -20px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 10;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
     }
 
     .spin-controls {
-      margin-top: var(--spacing-md);
+      margin-top: var(--spacing-xs);
     }
 
     .spin-button {
@@ -166,10 +179,20 @@ import { SpinService } from '../../services/spin.service';
       border-radius: var(--border-radius-xl) !important;
       transform: scale(1);
       transition: transform var(--animation-normal) ease;
+      padding: 0 var(--spacing-lg) !important;
+      height: 64px !important;
+      font-size: 1.2rem !important;
+      
+      mat-icon {
+        font-size: 2rem !important;
+        width: 2rem !important;
+        height: 2rem !important;
+        margin-right: var(--spacing-sm) !important;
+      }
     }
 
     .spin-button:not([disabled]):hover {
-      transform: scale(1.05);
+      transform: scale(1.08);
     }
 
     .spin-button[disabled] {
@@ -185,27 +208,29 @@ import { SpinService } from '../../services/spin.service';
 
     .fireworks-container {
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 600px;
+      height: 600px;
       pointer-events: none;
       overflow: visible;
-      z-index: 1;
+      z-index: 10;
     }
 
     .firework {
       position: absolute;
-      width: 4px;
-      height: 4px;
+      width: 8px;
+      height: 8px;
     }
 
     .particle {
       position: absolute;
-      width: 4px;
-      height: 4px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
-      animation: explode 1s ease-out forwards;
+      animation: explode 1.5s ease-out forwards;
+      box-shadow: 0 0 8px currentColor;
     }
 
     @keyframes explode {
@@ -219,19 +244,19 @@ import { SpinService } from '../../services/spin.service';
       }
     }
 
-    /* Generate particle animations */
-    .particle:nth-child(1) { --tx: 40px; --ty: -60px; }
-    .particle:nth-child(2) { --tx: 60px; --ty: -40px; }
-    .particle:nth-child(3) { --tx: 60px; --ty: 0px; }
-    .particle:nth-child(4) { --tx: 60px; --ty: 40px; }
-    .particle:nth-child(5) { --tx: 40px; --ty: 60px; }
-    .particle:nth-child(6) { --tx: 0px; --ty: 60px; }
-    .particle:nth-child(7) { --tx: -40px; --ty: 60px; }
-    .particle:nth-child(8) { --tx: -60px; --ty: 40px; }
-    .particle:nth-child(9) { --tx: -60px; --ty: 0px; }
-    .particle:nth-child(10) { --tx: -60px; --ty: -40px; }
-    .particle:nth-child(11) { --tx: -40px; --ty: -60px; }
-    .particle:nth-child(12) { --tx: 0px; --ty: -60px; }
+    /* Generate particle animations - bigger distances */
+    .particle:nth-child(1) { --tx: 80px; --ty: -120px; }
+    .particle:nth-child(2) { --tx: 120px; --ty: -80px; }
+    .particle:nth-child(3) { --tx: 120px; --ty: 0px; }
+    .particle:nth-child(4) { --tx: 120px; --ty: 80px; }
+    .particle:nth-child(5) { --tx: 80px; --ty: 120px; }
+    .particle:nth-child(6) { --tx: 0px; --ty: 120px; }
+    .particle:nth-child(7) { --tx: -80px; --ty: 120px; }
+    .particle:nth-child(8) { --tx: -120px; --ty: 80px; }
+    .particle:nth-child(9) { --tx: -120px; --ty: 0px; }
+    .particle:nth-child(10) { --tx: -120px; --ty: -80px; }
+    .particle:nth-child(11) { --tx: -80px; --ty: -120px; }
+    .particle:nth-child(12) { --tx: 0px; --ty: -120px; }
 
     .result-card {
       text-align: center;
@@ -262,16 +287,27 @@ import { SpinService } from '../../services/spin.service';
 
     @media (max-width: 768px) {
       .wheel-svg {
-        width: 250px;
-        height: 250px;
+        width: 320px;
+        height: 320px;
       }
       
       .segment-text {
-        font-size: 10px;
+        font-size: 11px;
       }
       
       .spin-wheel-container {
         padding: var(--spacing-md);
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .wheel-svg {
+        width: 280px;
+        height: 280px;
+      }
+      
+      .segment-text {
+        font-size: 10px;
       }
     }
   `]
@@ -292,8 +328,8 @@ export class SpinWheelComponent {
   }
 
   private readonly colors = [
-    '#FF6B6B', '#4ECDC4', '#45B7D1', '#96CEB4', '#FFEAA7',
-    '#DDA0DD', '#F4A261', '#2A9D8F', '#E76F51', '#F72585'
+    '#FFB5B5', '#A8E6CF', '#B4D7FF', '#C9E4CA', '#FFF4B8',
+    '#E8C4E8', '#FFD4A3', '#A8DCD1', '#FFB3A7', '#FFB3D9'
   ];
 
   constructor(private spinService: SpinService) {}
@@ -400,9 +436,9 @@ export class SpinWheelComponent {
       }))
     }));
 
-    // Clear fireworks after animation completes
+    // Clear fireworks after animation completes - extended to 5 seconds
     setTimeout(() => {
       this.fireworks = [];
-    }, 2000);
+    }, 5000);
   }
 }

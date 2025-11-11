@@ -105,12 +105,30 @@ import { DecisionOption } from '../../models/option.model';
         border-radius: var(--border-radius-md);
       }
       
+      ::ng-deep .mat-mdc-text-field-wrapper {
+        padding: 0 !important;
+      }
+      
+      ::ng-deep .mat-mdc-form-field-infix {
+        padding-top: 16px !important;
+        padding-bottom: 16px !important;
+        min-height: 56px !important;
+      }
+      
+      ::ng-deep .mat-mdc-input-element {
+        padding: 0 16px !important;
+      }
+      
       ::ng-deep .mat-mdc-form-field-outline {
         border-radius: var(--border-radius-md);
       }
       
       ::ng-deep .mat-mdc-form-field-focus-overlay {
         border-radius: var(--border-radius-md);
+      }
+      
+      ::ng-deep .mat-mdc-floating-label {
+        left: 16px !important;
       }
     }
 
