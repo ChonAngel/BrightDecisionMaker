@@ -313,8 +313,19 @@ import { SpinService } from '../../services/spin.service';
   `]
 })
 export class SpinWheelComponent {
-  @Input() options: DecisionOption[] = [];
+  private _optionsSignal = signal<DecisionOption[]>([]);
+  
+  @Input() 
+  set options(value: DecisionOption[]) {
+    this._optionsSignal.set(value || []);
+  }
+  
+  get options(): DecisionOption[] {
+    return this._optionsSignal();
+  }
+  
   @Output() spinComplete = new EventEmitter<SpinResult>();
+  @Output() optionSelected = new EventEmitter<DecisionOption>();
 
   isSpinning = signal(false);
   rotation = signal(0);
@@ -324,7 +335,7 @@ export class SpinWheelComponent {
   fireworks: Array<{ x: number; y: number; particles: Array<{ color: string; delay: number }> }> = [];
 
   get optionsArray(): DecisionOption[] {
-    return this.options || [];
+    return this._optionsSignal();
   }
 
   private readonly colors = [
@@ -335,7 +346,7 @@ export class SpinWheelComponent {
   constructor(private spinService: SpinService) {}
 
   segments = computed(() => {
-    const opts = this.optionsArray;
+    const opts = this._optionsSignal();
     if (opts.length === 0) return [];
 
     const totalWeight = opts.reduce((sum, opt) => sum + opt.weight, 0);
@@ -420,6 +431,11 @@ export class SpinWheelComponent {
       
       // Trigger fireworks
       this.generateFireworks();
+      
+      // Wait 3 more seconds before removing the option from the wheel
+      setTimeout(() => {
+        this.optionSelected.emit(result.option);
+      }, 3000);
     }, 3000);
   }
 

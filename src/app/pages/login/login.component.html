@@ -1,0 +1,57 @@
+<div class="login-container">
+  <div class="login-card">
+    <div class="logo-section">
+      <div class="logo-icon">
+        <span class="material-icons">casino</span>
+      </div>
+      <h1 class="app-title">Bright Decision Maker</h1>
+      <p class="app-subtitle">Make smart decisions with a spin!</p>
+    </div>
+
+    <div class="divider"></div>
+
+    <div class="login-content">
+      <h2 class="welcome-text">Welcome</h2>
+      <p class="instruction-text">Sign in to save your decision options and access them from anywhere</p>
+
+      @if (errorMessage()) {
+        <div class="error-message">
+          <span class="material-icons">error_outline</span>
+          <span>{{ errorMessage() }}</span>
+        </div>
+      }
+
+      <div class="signin-buttons">
+        <div class="google-signin-wrapper">
+          <div id="googleSignInButton"></div>
+        </div>
+
+        <div class="divider-text">
+          <span>or</span>
+        </div>
+
+        <button class="microsoft-signin-button" (click)="onMicrosoftSignIn()" [disabled]="isLoading()">
+          <svg class="microsoft-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 21">
+            <rect x="1" y="1" width="9" height="9" fill="#f25022"/>
+            <rect x="1" y="11" width="9" height="9" fill="#00a4ef"/>
+            <rect x="11" y="1" width="9" height="9" fill="#7fba00"/>
+            <rect x="11" y="11" width="9" height="9" fill="#ffb900"/>
+          </svg>
+          <span>Sign in with Microsoft</span>
+        </button>
+      </div>
+
+      @if (isLoading()) {
+        <div class="loading-spinner">
+          <span class="material-icons spinning">refresh</span>
+          <span>Signing in...</span>
+        </div>
+      }
+    </div>
+
+    <div class="footer-note">
+      <span class="material-icons">info</span>
+      <span>Your data is stored securely and never shared</span>
+    </div>
+  </div>
+</div>

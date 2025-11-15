@@ -1,5 +1,5 @@
 import { Component, inject } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 
@@ -8,6 +8,7 @@ import { OptionInputComponent } from '../../components/option-input/option-input
 import { SpinWheelComponent } from '../../components/spin-wheel/spin-wheel.component';
 import { StateService } from '../../services/state.service';
 import { ThemeService } from '../../services/theme.service';
+import { AuthService } from '../../services/auth.service';
 import { DecisionOption, SpinResult } from '../../models/option.model';
 
 @Component({
@@ -49,6 +50,17 @@ import { DecisionOption, SpinResult } from '../../models/option.model';
                 >
                   <mat-icon>save</mat-icon>
                   Save List
+                </button>
+              }
+
+              @if (authService.currentUser(); as user) {
+                <button
+                  mat-icon-button
+                  (click)="goToProfile()"
+                  class="profile-button"
+                  [attr.aria-label]="'Profile: ' + user.name"
+                >
+                  <img [src]="user.photoUrl" [alt]="user.name" class="profile-avatar">
                 </button>
               }
             </div>
@@ -115,6 +127,7 @@ import { DecisionOption, SpinResult } from '../../models/option.model';
             <app-spin-wheel
               [options]="stateService.currentOptions()"
               (spinComplete)="onSpinComplete($event)"
+              (optionSelected)="onOptionSelected($event)"
             />
           </section>
           
@@ -190,6 +203,27 @@ import { DecisionOption, SpinResult } from '../../models/option.model';
       
       mat-icon {
         margin-right: var(--spacing-sm);
+      }
+    }
+
+    .profile-button {
+      width: 48px;
+      height: 48px;
+      padding: 0;
+      overflow: hidden;
+      border-radius: 50%;
+      border: 3px solid var(--primary-color);
+      transition: all 0.2s;
+
+      &:hover {
+        transform: scale(1.1);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      }
+
+      .profile-avatar {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
       }
     }
 
@@ -373,6 +407,8 @@ import { DecisionOption, SpinResult } from '../../models/option.model';
 export class MainComponent {
   protected readonly stateService = inject(StateService);
   private readonly themeService = inject(ThemeService);
+  protected readonly authService = inject(AuthService);
+  private readonly router = inject(Router);
 
   protected onOptionAdded(option: DecisionOption): void {
     this.stateService.addOption(option.name, option.weight);
@@ -393,6 +429,11 @@ export class MainComponent {
     console.log('Spin completed:', result);
   }
 
+  protected onOptionSelected(option: DecisionOption): void {
+    // Remove the selected option from the wheel after spin
+    this.stateService.removeOption(option.id);
+  }
+
   protected saveCurrentList(): void {
     const name = prompt('Enter a name for this list:');
     if (name && name.trim()) {
@@ -403,5 +444,9 @@ export class MainComponent {
 
   protected getStarsArray(weight: number): number[] {
     return Array(weight).fill(0);
+  }
+
+  protected goToProfile(): void {
+    this.router.navigate(['/profile']);
   }
 }

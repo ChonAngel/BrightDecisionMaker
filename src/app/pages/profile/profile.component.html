@@ -1,0 +1,73 @@
+<div class="profile-container">
+  <div class="profile-card">
+    <div class="header-section">
+      <button class="back-button" (click)="onBackToApp()">
+        <span class="material-icons">arrow_back</span>
+        <span>Back to App</span>
+      </button>
+      <h1 class="page-title">Profile</h1>
+    </div>
+
+    @if (user(); as currentUser) {
+      <div class="profile-content">
+        <div class="avatar-section">
+          <img [src]="currentUser.photoUrl" [alt]="currentUser.name" class="avatar-image">
+          <div class="avatar-overlay">
+            <span class="material-icons">verified_user</span>
+          </div>
+        </div>
+
+        <div class="user-info">
+          <h2 class="user-name">{{ currentUser.name }}</h2>
+          <p class="user-email">{{ currentUser.email }}</p>
+        </div>
+
+        <div class="info-cards">
+          <div class="info-card">
+            <span class="material-icons card-icon">person</span>
+            <div class="card-content">
+              <span class="card-label">First Name</span>
+              <span class="card-value">{{ currentUser.firstName }}</span>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <span class="material-icons card-icon">person_outline</span>
+            <div class="card-content">
+              <span class="card-label">Last Name</span>
+              <span class="card-value">{{ currentUser.lastName }}</span>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <span class="material-icons card-icon">email</span>
+            <div class="card-content">
+              <span class="card-label">Email Address</span>
+              <span class="card-value">{{ currentUser.email }}</span>
+            </div>
+          </div>
+
+          <div class="info-card">
+            <span class="material-icons card-icon">fingerprint</span>
+            <div class="card-content">
+              <span class="card-label">User ID</span>
+              <span class="card-value id-value">{{ currentUser.id }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions-section">
+          <button class="sign-out-button" (click)="onSignOut()">
+            <span class="material-icons">logout</span>
+            <span>Sign Out</span>
+          </button>
+        </div>
+      </div>
+    } @else {
+      <div class="no-user">
+        <span class="material-icons">error_outline</span>
+        <p>No user information available</p>
+      </div>
+    }
+  </div>
+</div>
